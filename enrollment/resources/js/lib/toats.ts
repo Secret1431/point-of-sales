@@ -1,0 +1,19 @@
+import { toast } from "react-toastify";
+
+export const toastService = {
+    success(message: string) {
+        toast.success(message)
+    },
+
+    info(message: string) {
+        toast.info(message)
+    },
+
+    warn(message: string) {
+        toast.warn(message)
+    },
+
+    error(message: string) {
+        toast.error(message)
+    }
+}
