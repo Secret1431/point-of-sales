@@ -1,11 +1,7 @@
 interface TableBodyProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export function TableBody({ children}: TableBodyProps) {
-    return (
-        <tbody>
-            <tr>{children}</tr>
-        </tbody>
-    )
+export function TableBody({ children }: TableBodyProps) {
+  return <tbody>{children}</tbody>;
 }

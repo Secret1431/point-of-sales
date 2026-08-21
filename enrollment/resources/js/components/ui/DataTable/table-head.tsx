@@ -1,11 +1,9 @@
 interface TableHeadProps {
-    children: React.ReactNode;
+  children: React.ReactNode;
 }
 
-export function TableHead({ children}: TableHeadProps) {
-    return (
-        <thead>
-            <tr>{children}</tr>
-        </thead>
-    )
+export function TableHead({ children }: TableHeadProps ) {
+  return (
+    <thead className="w-full border-b border-gray-200">{children}</thead>
+  )
 }

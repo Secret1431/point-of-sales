@@ -9,11 +9,10 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory, Notifiable;
 
     protected $fillable = [
         'name',
@@ -40,4 +39,9 @@ class User extends Authenticatable
         return $this->hasMany(Customer::class);
     }
 
+    public function isAdmin(): bool
+{
+    // Adjust according to your DB column (e.g., $this->role === 'admin' or $this->is_admin)
+    return $this->role === 'admin'; 
+}
 }

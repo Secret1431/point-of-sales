@@ -7,24 +7,25 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreCustomerRequest extends FormRequest
 {
+
     public function authorize(): bool
     {
         return true;
     }
 
-    protected function validation ()
+    protected function Validation (): bool 
     {
-        $this->merge([
-            'firstname' => strip_tags($this->firstname),
-            'lastname' => strip_tags($this->lastname)
+        return $this->merge([
+            'firstname' => strip_tag($this->firstname),
+            'lastname' => strip_tags($this->lastname) 
         ]);
     }
 
     public function rules(): array
     {
         return [
-            'firstname' => 'required|string|max:100',
-            'lastname' => 'required|string|max:100'
+            'firstname',
+            'lastname'
         ];
     }
 }

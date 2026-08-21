@@ -5,74 +5,55 @@ import { Employee } from "../types/employee";
 import { useEmployeeStore } from "../store/employee.store";
 
 interface EmployeeFormProps {
-    employee?: Employee;
-    onSuccess?: () => void;
+  employee?: Employee;
+  onSuccess?: () => void;
 }
 
-interface EmployeeFormData {
-    firstname: string;
-    lastname: string;
-    middlename: string;
-}
+export function EmployeeForm({ employee, onSuccess }: EmployeeFormProps) {
+  const { createEmployee, updateEmployee } = useEmployeeStore();
 
-const initialForm: EmployeeFormData = {
-    firstname: '',
-    lastname: '',
-    middlename: '' 
-}
+  const { form, handleChange, resetForm } = useForm({
+    firstname: employee?.firstname ?? "",
+    lastname: employee?.lastname ?? "",
+    middlename: employee?.middlename ?? "",
+  });
 
-export function EmployeeForm({
-    employee,
-    onSuccess 
-}: EmployeeFormProps) {
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
 
-    const { createEmployee, updateEmployee } = useEmployeeStore();
+    if (employee) {
+      await updateEmployee(employee.id, form);
+    } else {
+      await createEmployee(form);
+      resetForm();
+    }
+    onSuccess?.();
+  };
 
-    const { form, setForm, handleChange, resetForm } = useForm(
-        employee ? {
-            firstname: employee.firstname,
-            lastname: employee.lastname,
-            middlename: employee.middlename
-        }
-        : initialForm 
-    );
+  return (
+    <form onSubmit={handleSubmit}>
+      <Input
+        name="firstname"
+        placeholder="First Name"
+        value={form.firstname}
+        onChange={handleChange}
+      />
+      <Input
+        name="lastname"
+        placeholder="Last Name"
+        value={form.lastname}
+        onChange={handleChange}
+      />
+      <Input
+        name="middlename"
+        placeholder="Middle Name"
+        value={form.middlename}
+        onChange={handleChange}
+      />
 
-    const handleSubmitEmployee = async (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-
-        if (employee) {
-            await updateEmployee(employee.id, form);
-        } else {
-            await createEmployee(form);
-        }
-    };
-
-    return (
-        <form onSubmit={handleSubmitEmployee} className="">
-            <Input 
-                type="text"
-                name="firstname"
-                value={form.firstname}
-                onChange={handleChange}
-            />
-
-            <Input 
-                type="text"
-                name="lastname"
-                value={form.lastname}
-                onChange={handleChange}
-            />
-
-            <Input 
-                type="text"
-                name="middlename"
-                value={form.middlename}
-                onChange={handleChange}
-            />
-
-            <Button type="submit">
-                {employee ? 'Update Employee' : 'Create Employee'}
-            </Button>
-        </form>
-    )
+      <Button type="submit">
+        {employee ? "Update" : "Create"} Employee
+      </Button>
+    </form>
+  );
 }

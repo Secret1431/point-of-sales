@@ -2,39 +2,49 @@
 
 namespace App\Services;
 
-use App\Models\User;
 use App\Repositories\BaseRepository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Database\Eloquent\Model;
 
-abstract class BaseService 
+abstract class BaseService
 {
-    public function __construct(
-        protected BaseRepository $repository 
-    ) {}
+    protected BaseRepository $repository;
 
-
-    public function paginate (User $user, int $perpage = 10): LengthAwarePaginator 
+    public function __construct(BaseRepository $repository)
     {
-        return $this->repository->paginate($user, $perpage);
+        $this->repository = $repository;
     }
 
-    public function find (User $user, int $id)
+    public function find(int $id): ?Model
     {
-        return $this->repository->find($user, $id);
+        return $this->repository->find($id);
     }
 
-    public function create (User $user, array $data)
+    public function findOrFail(int $id): Model
     {
-        return $this->repository->create($user, $data);
+        return $this->repository->findOrFail($id);
     }
 
-    public function update (User $user, int $id, array $data)
+    public function paginate(int $perPage = 10)
     {
-        return $this->repository->update($user, $id, $data);
+        return $this->repository->paginate($perPage);
     }
 
-    public function delete (User $user, int $id)
+    public function create(array $data): Model
     {
-        return $this->repository->delete($user, $id);
+        return $this->repository->create($data);
+    }
+
+    public function update(int $id, array $data): Model
+    {
+        $this->findOrFail($id);
+
+        return $this->repository->update($id, $data);
+    }
+
+    public function delete(int $id): Model
+    {
+        $this->findOrFail($id);
+
+        return $this->repository->delete($id);
     }
 }

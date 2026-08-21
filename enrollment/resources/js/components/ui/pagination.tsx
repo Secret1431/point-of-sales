@@ -14,10 +14,11 @@ export function Pagination({ page, limit, totalPages, onPageChange, onLimitChang
 
     return (
         <div className="flex justify-between items-center mt-10 text-gray-700">
-            <div className="flex items-center">
+            <div className="flex space-x-4">
                 <select
                     value={limit}
                     onChange={(e) => onLimitChange(Number(e.target.value))}
+                    className="py-1.5 px-3 border border-gray-400 text-gray-700 rounded-lg"
                 >
                     <option value={5}>Rows 5</option>
                     <option value={10}>Rows 10</option>
@@ -26,23 +27,23 @@ export function Pagination({ page, limit, totalPages, onPageChange, onLimitChang
                 </select>
             </div>
 
-            <div className="flex items-center">
+            <div className="flex space-x-4">
                 <button
                     disabled={page === 1}
                     onClick={() => onPageChange(page - 1)}
-                    className="bg-red-500 py-2 px-4 shadow-sm rounded"
+                    className="py-1.5 px-3 border border-gray-400 rounded-lg text-gray-700"
                 >
                     Previous 
                 </button>
 
-                <span>
+                <span className="flex items-center gap-1 text-gray-700 font-medium">
                     Page {page} of {totalPages}
                 </span>
 
                 <button
                     disabled={page === totalPages}
                     onClick={() => onPageChange(page + 1)}
-                    className="bg-green-500 py-2 px-4 shadow-sm rounded"
+                    className="py-1.5 px-3 border border-gray-400 rounded-lg text-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     Next
                 </button>
