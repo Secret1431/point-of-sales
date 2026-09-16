@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('suppliers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->string('supplier_name')->unique();
             $table->string('contact_person')->unique();
             $table->integer('phone');

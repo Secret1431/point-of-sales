@@ -12,59 +12,47 @@ const mainNavItems: NavItem[] = [
         title: 'Dashboard',
         url: '/dashboard',
         icon: LayoutGrid,
-        // roles: ['admin']
+        roles: ['Admin']
     },
     {
         title: 'Category',
         url: '/categories',
         icon: Grid,
-        // roles: ['suppliers']
+        roles: ['Admin', 'Stockman']
     },
     {
         title: 'Product',
         url: '/products',
         icon: Package,
-        // roles: ['admin']
+        roles: ['Admin', 'Stockman']
     },
     {
         title: 'Batch',
         url: '/batches',
         icon: Package,
-        // roles: ['admin']
+        roles: ['Admin', 'Stockman']
     },
     {
         title: 'Supplier',
         url: '/suppliers',
         icon: User2,
-        // roles: ['suppliers']
+        roles: ['suppliers', 'Admin']
     },
     {
         title: 'Sales',
         url: '/sales',
         icon: ShoppingCart,
-        // roles: ['admin']
+        roles: ['Admin', 'Stockman']
     },
     {
         title: 'Item',
         url: '/items',
         icon: ShoppingCart,
-        // roles: ['admin']
+        roles: ['Admin', 'Stockman']
     },
 ];
 
-const manageNavItems: NavItem[] = [
-    {
-        title: 'User',
-        url: 'users',
-        icon: User2
-    }
-];
 
-export type NavItem = {
-    title: string;
-    url: string;
-    roles?: string[];
-};
 const footerNavItems: NavItem[] = [
 
 ];
@@ -72,13 +60,11 @@ const footerNavItems: NavItem[] = [
 export function AppSidebar() {
     const { auth } = usePage().props as any;
 
-    const visibleNavItems = mainNavItems.filter((item) => {
-        if (!item.roles) {
-            return true;
-        }
+    const userRole = auth.user?.role;
 
-        return item.roles.includes(auth.user.role);
-    });
+    const visibleItems = mainNavItems.filter((item) =>
+        item.roles?.includes(userRole)
+    )
 
     return (
         <Sidebar collapsible="icon" variant="sidebar">
@@ -95,8 +81,8 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                {visibleNavItems.length > 0 && (
-                    <NavMain items={visibleNavItems} label='platform' />
+                {visibleItems.length > 0 && (
+                    <NavMain items={visibleItems} label='platform' />
                 )}
 
             </SidebarContent>
